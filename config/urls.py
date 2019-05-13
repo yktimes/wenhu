@@ -5,10 +5,12 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
+from wenhu.news.views import NewsListView
+
 urlpatterns = [
 
 
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path("",NewsListView.as_view(), name="home"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
@@ -18,7 +20,12 @@ urlpatterns = [
     path("users/", include("users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    # 开发的应用
+    path("news/", include("news.urls", namespace="news")),
+
+
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit
