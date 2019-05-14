@@ -21,6 +21,7 @@ class AuthorRequireMixin(View):
     """
     def dispatch(self, request, *args, **kwargs):
         # 状态和文章实例有user属性
+        #           这里的get_object() 可以得到user对象，但并不是request.user。而是通过外键`user`
         if self.get_object().user.username!=self.request.user.username:
             raise PermissionDenied
 

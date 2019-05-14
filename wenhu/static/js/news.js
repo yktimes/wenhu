@@ -77,8 +77,11 @@ $(function () {
             type: 'POST',
             cache: false,
             success: function (data) {
-                $("#replyInput").val("");
+                $("#replyInput").val(data.comments);
+
+                location.reload();
                 $("#newsThreadModal").modal("hide");
+
             },
             error: function (data) {
                 alert(data.responseText);
