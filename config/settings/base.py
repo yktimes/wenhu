@@ -63,6 +63,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize", # Handy template tags
     "django.contrib.admin",
+    "django.forms" # 用于重写django内置的widget模板
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
@@ -74,6 +75,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "taggit",
     'sorl.thumbnail',
+    'markdownx'
 ]
 LOCAL_APPS = [
     "wenhu.users.apps.UsersAppConfig",
@@ -84,6 +86,9 @@ LOCAL_APPS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
+
+# 更改查找组件模板的顺序，先自定义的模板，然后是系统默认的模板
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
@@ -274,3 +279,4 @@ INSTALLED_APPS += ["compressor"]
 STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # Your stuff...
 # ------------------------------------------------------------------------------
+
