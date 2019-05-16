@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}赞乎{% endblock title %}</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <meta name="description" content="赞乎问答社区">
-    <meta name="author" content="__Jack__">
+    <meta name="description" content="陇桥问乎问答社区">
+    <meta name="author" content="__YK__">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -28,7 +28,7 @@
 <body>
 <nav class="navbar fixed-top navbar-expand-sm bg-light">
     <div class="container">
-        <a class="navbar-brand" href="#">赞 乎&nbsp;&nbsp;</a>
+        <a class="navbar-brand" href="#">陇桥 乎&nbsp;&nbsp;</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu"
                 aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -45,8 +45,8 @@
             </ul>&nbsp;&nbsp;
 
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="#">&nbsp;&nbsp;首页</a></li>&nbsp;&nbsp;
-                <li class="nav-item"><a class="nav-link" href="#">文章</a></li>&nbsp;&nbsp;
+                <li class="nav-item"><a class="nav-link" href="{% url 'news:list' %}">&nbsp;&nbsp;首页</a></li>&nbsp;&nbsp;
+                <li class="nav-item"><a class="nav-link" href="{% url 'articles:list' %}">文章</a></li>&nbsp;&nbsp;
                 <li class="nav-item"><a class="nav-link" href="#">问答</a></li>&nbsp;&nbsp;
                 <li class="nav-item"><a class="nav-link" href="#">私信</a></li>&nbsp;&nbsp;
             </ul>

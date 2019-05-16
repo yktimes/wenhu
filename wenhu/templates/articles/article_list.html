@@ -21,6 +21,7 @@
                         {% thumbnail article.image "1920x1080" as im %}
                             <img src="{{ im.url }}" alt="文章图片" class="card-img-top">
                         {% empty %}
+                            {#   如果为空，会在这个网站上获取一张背景图片   #}
                             <img class="card-img-top" src="http://placehold.it/1920x1080" alt="图片大小">
                         {% endthumbnail %}
 
@@ -39,7 +40,7 @@
                         </div>
                     </div>
                 {% empty %}
-                    <h4 class="no-data"><a href="{% url 'articles:write_new' %}">快来成为第一个写文章的吧！</a></h4>
+                    <h4 class="no-data"><a href="">快来成为第一个写文章的吧！</a></h4>
                 {% endfor %}
 
                 {% if is_paginated %}
@@ -72,9 +73,9 @@
                 {% if request.user.is_authenticated %}
                     <div class="card my-4">
                         <div class="card-body text-center">
-                            <a class="btn btn-success" href="{% url 'articles:write_new' %}" title="写文章">
+                            <a class="btn btn-success" href="" title="写文章">
                                 <i class="fa fa-pencil" aria-hidden="true"></i> 写文章</a>
-                            <a class="btn btn-primary" href="{% url 'articles:drafts' %}" title="草稿箱">
+                            <a class="btn btn-primary" href="" title="草稿箱">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 草稿箱</a>
                         </div>
                     </div>
