@@ -72,12 +72,13 @@ THIRD_PARTY_APPS = [
     # "allauth.socialaccount.providers.weixin",
     "allauth.socialaccount.providers.github",
     "rest_framework",
-
+    "taggit",
     'sorl.thumbnail',
 ]
 LOCAL_APPS = [
     "wenhu.users.apps.UsersAppConfig",
     "wenhu.news.apps.NewsConfig",
+    "wenhu.articles.apps.ArticlesConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
