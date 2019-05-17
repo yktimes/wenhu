@@ -6,6 +6,7 @@ from wenhu.articles.models import Article
 from django.urls import reverse_lazy
 from .forms import ArticleForm
 from django.urls import reverse
+from wenhu.helpers import AuthorRequireMixin
 #
 # class ArticlesListView(LoginRequiredMixin, ListView):
 #     """已发布的文章列表"""
@@ -59,6 +60,7 @@ class ArticlesListView(LoginRequiredMixin, ListView):
         return context
 
     def get_queryset(self, **kwargs):
+        # TODO 这个get_published() 有问题 返回空的queryset
         print(Article.objects.filter(status='D'))
         return Article.objects.get_published()
 
@@ -86,3 +88,23 @@ class CreateArticleView(LoginRequiredMixin, CreateView):
         """创建成功后跳转"""
         messages.success(self.request, self.message)  # 消息传递给下一次请求
         return reverse('articles:list')
+
+
+class ArticleDetailView(LoginRequiredMixin,DetailView):
+    model = Article
+    template_name = 'articles/article_detail.html'
+
+
+class ArticleEditView(LoginRequiredMixin,AuthorRequireMixin,UpdateView):
+    model = Article
+    message = "文章编辑成功"
+    form_class = ArticleForm
+    template_name = 'articles/article_update.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        messages.success(self.request,self.message)
+        return reverse_lazy('articles:article',kwargs={"slug":self.get_object().slug})

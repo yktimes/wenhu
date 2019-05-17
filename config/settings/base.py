@@ -75,7 +75,8 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "taggit",
     'sorl.thumbnail',
-    'markdownx'
+    'markdownx',
+    'django_comments'
 ]
 LOCAL_APPS = [
     "wenhu.users.apps.UsersAppConfig",

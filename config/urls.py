@@ -20,8 +20,10 @@ urlpatterns = [
     path("users/", include("users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+
     # 第三方应用
     path('markdownx/', include('markdownx.urls')),
+    path('comments/', include('django_comments.urls')),
 
     # 开发的应用
     path("news/", include("news.urls", namespace="news")),

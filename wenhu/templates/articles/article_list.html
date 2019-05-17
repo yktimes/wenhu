@@ -38,7 +38,7 @@
 
 
 
-                            <a style="float:right" href="{% url 'articles:drafts'  %}" class="btn-sm btn-primary">阅读全文→</a>
+                            <a style="float:right" href="{% url 'articles:article' article.slug  %}" class="btn-sm btn-primary">阅读全文→</a>
                         </div>
                     </div>
                 {% empty %}
