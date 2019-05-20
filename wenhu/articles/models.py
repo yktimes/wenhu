@@ -24,7 +24,8 @@ class ArticleQuerySet(models.query.QuerySet):
     def get_counted_tags(self):
         """统计所有已发布的文章中，每一个标签的数量(大于0的)"""
         tag_dict = {}
-        for obj in self.all():
+        query=self.all().annotate(tagged=Count('tags')).filter(tags__gt=0)
+        for obj in query:
             for tag in obj.tags.names():
                 if tag not in tag_dict:
                     tag_dict[tag] = 1
@@ -53,7 +54,7 @@ class Article(models.Model):
     class Meta:
         verbose_name = '文章'
         verbose_name_plural = verbose_name
-        ordering = ("created_at",)
+        ordering = ("-created_at",)
 
     def __str__(self):
         return self.title
@@ -67,3 +68,6 @@ class Article(models.Model):
     def get_markdown(self):
         # 将Markdown文本转换成HTML
         return markdownify(self.content)
+
+
+

@@ -7,6 +7,8 @@ from django.urls import reverse_lazy
 from .forms import ArticleForm
 from django.urls import reverse
 from wenhu.helpers import AuthorRequireMixin
+
+
 #
 # class ArticlesListView(LoginRequiredMixin, ListView):
 #     """已发布的文章列表"""
@@ -46,7 +48,6 @@ from wenhu.helpers import AuthorRequireMixin
 #         return reverse_lazy("articles:list")
 
 
-
 class ArticlesListView(LoginRequiredMixin, ListView):
     """已发布的文章列表"""
     model = Article
@@ -81,21 +82,24 @@ class CreateArticleView(LoginRequiredMixin, CreateView):
     template_name = 'articles/article_create.html'
 
     def form_valid(self, form):
+        print(self.request)
         form.instance.user = self.request.user
         return super(CreateArticleView, self).form_valid(form)
 
     def get_success_url(self):
         """创建成功后跳转"""
+
         messages.success(self.request, self.message)  # 消息传递给下一次请求
         return reverse('articles:list')
 
 
-class ArticleDetailView(LoginRequiredMixin,DetailView):
+class ArticleDetailView(LoginRequiredMixin, DetailView):
+    """用户浏览文章"""
     model = Article
     template_name = 'articles/article_detail.html'
 
 
-class ArticleEditView(LoginRequiredMixin,AuthorRequireMixin,UpdateView):
+class ArticleEditView(LoginRequiredMixin, AuthorRequireMixin, UpdateView):
     model = Article
     message = "文章编辑成功"
     form_class = ArticleForm
@@ -106,5 +110,5 @@ class ArticleEditView(LoginRequiredMixin,AuthorRequireMixin,UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        messages.success(self.request,self.message)
-        return reverse_lazy('articles:article',kwargs={"slug":self.get_object().slug})
+        messages.success(self.request, self.message)
+        return reverse_lazy('articles:article', kwargs={"slug": self.get_object().slug})
