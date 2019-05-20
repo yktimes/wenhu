@@ -19,7 +19,7 @@ urlpatterns = [
     # User management
     path("users/", include("users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
+
 
     # 第三方应用
     path('markdownx/', include('markdownx.urls')),
@@ -28,6 +28,7 @@ urlpatterns = [
     # 开发的应用
     path("news/", include("news.urls", namespace="news")),
     path("articles/", include("articles.urls", namespace="articles")),
+    path("qa/", include("qa.urls", namespace="qa")),
 
 
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
