@@ -3,14 +3,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DeleteView
 from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods
+
+
 from django.urls import reverse_lazy
 
 from wenhu.news.models import News
 from wenhu.helpers import ajax_required, AuthorRequireMixin
-
-
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 class NewsListView(LoginRequiredMixin, ListView):
