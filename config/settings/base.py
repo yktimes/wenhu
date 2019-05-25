@@ -83,6 +83,7 @@ LOCAL_APPS = [
     "wenhu.news.apps.NewsConfig",
     "wenhu.articles.apps.ArticlesConfig",
     "wenhu.qa.apps.QaConfig",
+    "wenhu.messager.apps.MessagerConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
