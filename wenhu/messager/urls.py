@@ -10,4 +10,3 @@ urlpatterns = [
     path('send-message/', views.send_message, name='send_message'),
     path('<username>/', views.ConversationListView.as_view(), name='conversation_detail'),
 ]
-

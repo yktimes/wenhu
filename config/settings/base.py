@@ -52,6 +52,7 @@ ROOT_URLCONF = "config.urls"
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = "config.wsgi.application"
 
+ASGI_APPLICATION = "config.routing.application"
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
@@ -66,6 +67,7 @@ DJANGO_APPS = [
     "django.forms" # 用于重写django内置的widget模板
 ]
 THIRD_PARTY_APPS = [
+    'channels',
     "crispy_forms",
     "allauth",
     "allauth.account",
@@ -76,7 +78,8 @@ THIRD_PARTY_APPS = [
     "taggit",
     'sorl.thumbnail',
     'markdownx',
-    'django_comments'
+    'django_comments',
+
 ]
 LOCAL_APPS = [
     "wenhu.users.apps.UsersAppConfig",
@@ -283,3 +286,14 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # Your stuff...
 # ------------------------------------------------------------------------------
 
+# 频道层的缓存
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            # TODO 线上环境修改
+            "hosts": [f'{env("REDIS_URL",default="redis://127.0.0.1:6379")}/3',],
+            # channels
+        },
+    },
+}

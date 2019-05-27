@@ -1,3 +1,5 @@
+
+from asgiref.sync import async_to_sync
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
@@ -6,8 +8,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
 from django.template.loader import render_to_string
-from .models import Message
-from wenhu.helpers import ajax_required, AuthorRequireMixin
+
+from channels.layers import get_channel_layer
+
+from wenhu.messager.models import Message
+from wenhu.helpers import ajax_required
+
 
 class MessagesListView(LoginRequiredMixin, ListView):
     model = Message
@@ -60,6 +66,16 @@ def send_message(request):
             message=message
         )
 
-    return render(request, 'messager/single_message.html', {'message': msg})
+        channel_layer = get_channel_layer()
+        payload = {
+            'type': 'receive',
+            'message': render_to_string('messager/single_message.html', {"message": msg}),
+            'sender': sender.username
+        }
+        print("发送啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊")
+        # group_send(group: 所在组-接收者的username, message: 消息内容)
+        async_to_sync(channel_layer.group_send)(recipient.username, payload)
+
+        return render(request, 'messager/single_message.html', {'message': msg})
 
     return HttpResponse()

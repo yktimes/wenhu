@@ -1,7 +1,3 @@
-#!/usr/bin/python3
-# -*- coding:utf-8 -*-
-# __author__ = '__Jack__'
-
 
 from __future__ import unicode_literals
 import uuid
@@ -61,7 +57,6 @@ class Message(models.Model):
         return self.message
 
     def mark_as_read(self):
-        """已读"""
         if self.unread:
             self.unread = False
             self.save()
