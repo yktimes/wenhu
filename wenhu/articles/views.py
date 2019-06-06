@@ -10,7 +10,8 @@ from django.urls import reverse
 from django_comments.signals import comment_was_posted
 from wenhu.helpers import AuthorRequireMixin
 from wenhu.notifications.views import notification_handler
-
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 class ArticlesListView(LoginRequiredMixin, ListView):
     """已发布的文章列表"""
@@ -35,7 +36,7 @@ class DraftsListView(ArticlesListView):
         # 当前用户的草稿
         return Article.objects.filter(user=self.request.user).get_drafts()
 
-
+@method_decorator(cache_page(60*60),name='get')
 class CreateArticleView(LoginRequiredMixin, CreateView):
     """创建文章"""
     model = Article
@@ -57,6 +58,9 @@ class DetailArticleView(LoginRequiredMixin, DetailView):
     """文章详情"""
     model = Article
     template_name = 'articles/article_detail.html'
+
+    def get_queryset(self):
+        return Article.objects.select_related('user').filter(slug=self.kwargs['slug'])
 
 
 class EditArticleView(LoginRequiredMixin, AuthorRequireMixin, UpdateView):  # 注意类的继承顺序

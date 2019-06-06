@@ -56,7 +56,7 @@
         <a href="{{ object.linkedin }}" style="font-size: 2em" title="LinkedIn"><i class="fa fa-linkedin"></i> </a>
     {% endif %}
 
-    {% if request.user.username == object.username %}
+{#    {% if request.user.username == object.username %}#}
         <div class="row tile_count">
             <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
                 <p class="fa fa-code"> 动态</p>
@@ -83,6 +83,6 @@
                 <div class="count">{{ interaction_num }}</div>
             </div>
         </div>
-    {% endif %}
+{#    {% endif %}#}
 
 {% endblock content %}

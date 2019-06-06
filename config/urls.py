@@ -17,21 +17,24 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-    path("users/", include("users.urls", namespace="users")),
+    path("users/", include("wenhu.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
 
 
     # 第三方应用
     path('markdownx/', include('markdownx.urls')),
     path('comments/', include('django_comments.urls')),
+    # TODO 装包
+    path('search/', include('haystack.urls')),
+
 
     # 开发的应用
-    path("news/", include("news.urls", namespace="news")),
-    path("articles/", include("articles.urls", namespace="articles")),
-    path("qa/", include("qa.urls", namespace="qa")),
+    path("news/", include("wenhu.news.urls", namespace="news")),
+    path("articles/", include("wenhu.articles.urls", namespace="articles")),
+    path("qa/", include("wenhu.qa.urls", namespace="qa")),
 
-    path('messages/', include('messager.urls', namespace='messages')),
-    path('notifications/', include('notifications.urls', namespace='notifications')),
+    path('messages/', include('wenhu.messager.urls', namespace='messages')),
+    path('notifications/', include('wenhu.notifications.urls', namespace='notifications')),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
@@ -59,3 +62,4 @@ if settings.DEBUG:
         import debug_toolbar
 
         urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+

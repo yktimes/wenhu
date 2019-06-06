@@ -4,6 +4,30 @@
 {% block title %}文章 - {{ block.super }}{% endblock %}
 
 {% block content %}
+
+      <div class="col-md-4">
+                <!-- Write Article Widget -->
+                {% if request.user.is_authenticated %}
+                    <div class="card my-4">
+                        <div class="card-body text-center">
+                            <a class="btn btn-success" href="{% url 'articles:write_new' %}" title="写文章">
+                                <i class="fa fa-pencil" aria-hidden="true"></i> 写文章</a>
+                            <a class="btn btn-primary" href="{% url 'articles:drafts' %}" title="草稿箱">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 草稿箱</a>
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- 云标签 -->
+                <div class="card my-4">
+                    <h5 class="card-header">云标签</h5>
+                    <div class="card-body">
+                        {% for tag, count in popular_tags %}
+                            <a href="#"><span class="badge badge-info">{{ tag }}({{ count }})</span></a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
     <!-- Page Content -->
     <div class="container">
         <nav aria-label="breadcrumb">
@@ -45,28 +69,7 @@
             {% include 'pagination.html' %}
 
             <!-- Sidebar Widgets Column -->
-            <div class="col-md-4">
-                <!-- Write Article Widget -->
-                {% if request.user.is_authenticated %}
-                    <div class="card my-4">
-                        <div class="card-body text-center">
-                            <a class="btn btn-success" href="{% url 'articles:write_new' %}" title="写文章">
-                                <i class="fa fa-pencil" aria-hidden="true"></i> 写文章</a>
-                            <a class="btn btn-primary" href="{% url 'articles:drafts' %}" title="草稿箱">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 草稿箱</a>
-                        </div>
-                    </div>
-                {% endif %}
-                <!-- 云标签 -->
-                <div class="card my-4">
-                    <h5 class="card-header">云标签</h5>
-                    <div class="card-body">
-                        {% for tag, count in popular_tags %}
-                            <a href="#"><span class="badge badge-info">{{ tag }}({{ count }})</span></a>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+
         </div>
         <!-- /.row -->
     </div>

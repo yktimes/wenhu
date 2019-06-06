@@ -13,9 +13,10 @@ from .forms import QuestionForm
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 
-from notifications.views import notification_handler
+from wenhu.notifications.views import notification_handler
 class QuestionListView(LoginRequiredMixin, ListView):
     model = Question
+    queryset = Question.objects.select_related('user')
     paginate_by = 10
     context_object_name = 'questions'
     template_name = 'qa/question_list.html'
@@ -26,6 +27,8 @@ class QuestionListView(LoginRequiredMixin, ListView):
         context["active"] = "all"
 
         return context
+
+
 
 
 class AnsweredQuestionListView(QuestionListView):
@@ -75,6 +78,8 @@ class QuestionDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'question'
     template_name = 'qa/question_detail.html'
 
+    def get_queryset(self):
+        return Question.objects.select_related('user').filter(pk=self.kwargs['pk'])
 
 class CreateAnswerView(LoginRequiredMixin, CreateView):
     model = Answer

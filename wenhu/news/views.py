@@ -28,7 +28,7 @@ class NewsListView(LoginRequiredMixin, ListView):
     #     pass
     #
     def get_queryset(self):
-        return News.objects.filter(reply=False)
+        return News.objects.filter(reply=False).select_related('user','parent').prefetch_related('liked')
 
     # def get_context_data(self, *, object_list=None, **kwargs):
     #     """添加额外的上下文"""
@@ -80,7 +80,7 @@ def like(request):
 def get_thread(request):
     """返回动态的评论 AJAX GET 请求"""
     news_id = request.GET.get("news")
-    news = News.objects.get(pk=news_id)
+    news = News.objects.select_related('user').get(pk=news_id)
     mews_html = render_to_string('news/news_single.html', {'news': news})  # 没有评论的时候
     thread_html = render_to_string('news/news_thread.html', {'thread': news.get_thread()})
 

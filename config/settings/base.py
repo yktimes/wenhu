@@ -62,7 +62,7 @@ DJANGO_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.humanize", # Handy template tags
+
     "django.contrib.admin",
     "django.forms" # 用于重写django内置的widget模板
 ]
@@ -79,6 +79,8 @@ THIRD_PARTY_APPS = [
     'sorl.thumbnail',
     'markdownx',
     'django_comments',
+    'haystack',
+    'djcelery_email'
 
 ]
 LOCAL_APPS = [
@@ -88,6 +90,7 @@ LOCAL_APPS = [
     "wenhu.qa.apps.QaConfig",
     "wenhu.messager.apps.MessagerConfig",
     "wenhu.notifications.apps.NotificationsConfig",
+    'wenhu.search.apps.SearchConfig'
 
     # Your stuff: custom apps go here
 ]
@@ -112,9 +115,10 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "account_logout"
+LOGIN_REDIRECT_URL = 'news:list'  # 登录跳转配置
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-LOGIN_URL = "account_login"
+LOGIN_URL = 'account_login'
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -287,7 +291,9 @@ INSTALLED_APPS += ["compressor"]
 STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # Your stuff...
 # ------------------------------------------------------------------------------
-
+# Markdown相关设置 https://neutronx.github.io/django-markdownx/customization/#settings
+MARKDOWNX_UPLOAD_MAX_SIZE = 5 * 1024 * 1024  # 允许上传的最大图片大小为5MB
+MARKDOWNX_IMAGE_MAX_SIZE = {'size': (1000, 1000), 'quality': 100}  # 图片最大为1000*1000, 不压缩
 # 频道层的缓存
 CHANNEL_LAYERS = {
     "default": {
@@ -299,3 +305,20 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        # 使用Elasticsearch搜索引擎
+        # 'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'ENGINE': 'haystack.backends.elasticsearch2_backend.Elasticsearch2SearchEngine',
+        # Elasticsearch连接的地址
+        'URL': 'http://47.107.238.122:9200/',
+        # 默认的索引名
+        'INDEX_NAME': 'wenhu',
+    },
+}
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 20  # 分页
+# 实时信号量处理器，模型类中数据添加、更新、删除时自动更新索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+

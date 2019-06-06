@@ -19,7 +19,7 @@ DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # no
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env("REDIS_URL"),
+        "LOCATION":f'{ env("REDIS_URL",default="redis//127.0.0.1:6379")}/0',
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             # Mimicing memcache behavior.
@@ -67,34 +67,29 @@ TEMPLATES[0]["OPTIONS"]["loaders"] = [  # noqa F405
     )
 ]
 
-# Anymail (Mailgun)
-# ------------------------------------------------------------------------------
-# https://anymail.readthedocs.io/en/stable/installation/#installing-anymail
-INSTALLED_APPS += ["anymail"]  # noqa F405
-EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
-# https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
-ANYMAIL = {
-    "MAILGUN_API_KEY": env("MAILGUN_API_KEY"),
-    "MAILGUN_SENDER_DOMAIN": env("MAILGUN_DOMAIN"),
-}
+# # Anymail (Mailgun)
+# # ------------------------------------------------------------------------------
+# # https://anymail.readthedocs.io/en/stable/installation/#installing-anymail
+# INSTALLED_APPS += ["anymail"]  # noqa F405
+# EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+# # https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
+# ANYMAIL = {
+#     "MAILGUN_API_KEY": env("MAILGUN_API_KEY"),
+#     "MAILGUN_SENDER_DOMAIN": env("MAILGUN_DOMAIN"),
+# }
 
 # Gunicorn
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ["gunicorn"]  # noqa F405
+#INSTALLED_APPS += ["gunicorn"]  # noqa F405
 
 # django-compressor
 # ------------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_ENABLED
 COMPRESS_ENABLED = env.bool("COMPRESS_ENABLED", default=True)
-# https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_STORAGE
-COMPRESS_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_URL
 COMPRESS_URL = STATIC_URL
-# Collectfast
-# ------------------------------------------------------------------------------
-# https://github.com/antonagestam/collectfast#installation
-INSTALLED_APPS = ["collectfast"] + INSTALLED_APPS  # noqa F405
-AWS_PRELOAD_METADATA = True
+
 
 # LOGGING
 # ------------------------------------------------------------------------------
