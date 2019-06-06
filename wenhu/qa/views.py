@@ -13,7 +13,7 @@ from .forms import QuestionForm
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 
-
+from notifications.views import notification_handler
 class QuestionListView(LoginRequiredMixin, ListView):
     model = Question
     paginate_by = 10
@@ -138,22 +138,21 @@ def answer_vote(request):
 
     return JsonResponse({"votes": answer.total_votes()})
 
+
 @login_required
 @ajax_required
 @require_http_methods(['POST'])
 def accept_answer(request):
     """接受回答  Ajax Post请求"""
 
-
     answer_id = request.POST["answer"]
     answer = Answer.objects.get(pk=answer_id)
 
-    #如果当前登录不是提问者，抛出权限拒绝错误
+    # 如果当前登录不是提问者，抛出权限拒绝错误
 
-    if answer.question.user.username!=request.user.username:
+    if answer.question.user.username != request.user.username:
         raise PermissionDenied
 
     answer.accept_answer()
-    return JsonResponse({"status":"true"})
-
-
+    notification_handler(request.user,answer.user,'W',answer)
+    return JsonResponse({"status": "true"})

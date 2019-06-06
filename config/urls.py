@@ -31,7 +31,7 @@ urlpatterns = [
     path("qa/", include("qa.urls", namespace="qa")),
 
     path('messages/', include('messager.urls', namespace='messages')),
-
+    path('notifications/', include('notifications.urls', namespace='notifications')),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

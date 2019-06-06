@@ -14,10 +14,7 @@ urlpatterns = [
     path("question/vote/", views.question_vote, name="question_vote"),
     path("answer/vote/", views.answer_vote, name="answer_vote"),
     path("accept-answer/", views.accept_answer, name="accept_answer"),
-    # path("write-new-article/", views.CreateArticleView.as_view(), name="write_new"),
-    # path("drafts/", views.DraftsListView.as_view(), name="drafts"),
-    # path("<str:slug>/", views.ArticleDetailView.as_view(), name="article"),
-    # path("edit/<int:pk>/", views.ArticleEditView.as_view(), name="edit_article"),
+
 
 
 ]
