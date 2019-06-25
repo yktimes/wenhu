@@ -1,6 +1,3 @@
-#!/usr/bin/python3
-
-
 import uuid
 from collections import Counter
 
@@ -58,7 +55,6 @@ class QuestionQuerySet(models.query.QuerySet):
             for tag in obj.tags.names():
                 if tag not in tag_dict:
                     tag_dict[tag] = 1
-
                 else:
                     tag_dict[tag] += 1
         return tag_dict.items()
@@ -77,7 +73,9 @@ class Question(models.Model):
     content = MarkdownxField(verbose_name='内容')
     tags = TaggableManager(help_text='多个标签使用,(英文)隔开', verbose_name='标签')
     has_answer = models.BooleanField(default=False, verbose_name="接受回答")  # 是否有接受的回答
+
     votes = GenericRelation(Vote, verbose_name='投票情况')  # 通过GenericRelation关联到Vote表，不是实际的字段
+
     created_at = models.DateTimeField(db_index=True,auto_now_add=True, verbose_name='创建时间')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
@@ -133,7 +131,9 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name='问题')
     content = MarkdownxField(verbose_name='内容')
     is_answer = models.BooleanField(default=False, verbose_name='回答是否被接受')
+
     votes = GenericRelation(Vote, verbose_name='投票情况')
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
